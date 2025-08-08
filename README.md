@@ -1,5 +1,5 @@
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/rsksmart/sk-scaffold/badge)](https://scorecard.dev/viewer/?uri=github.com/rsksmart/sk-scaffold)
-[![CodeQL](https://github.com/rsksmart/sk-scaffold/workflows/CodeQL/badge.svg)](https://github.com/rsksmart/sk-scaffold/actions?query=workflow%3ACodeQL)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/rsksmart/rsk-scaffold/badge)](https://scorecard.dev/viewer/?uri=github.com/rsksmart/rsk-scaffold)
+[![CodeQL](https://github.com/rsksmart/rsk-scaffold/workflows/CodeQL/badge.svg)](https://github.com/rsksmart/rsk-scaffold/actions?query=workflow%3ACodeQL)
 
 # 🏗 Scaffold-ETH-Rootstock
 

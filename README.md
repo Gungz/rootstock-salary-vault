@@ -8,14 +8,14 @@
 </div>
 
 <h4 align="center">
-  <a href="https://docs.rootstock.io">Rootstock Documentation</a>
-  | <a href="https://github.com/siddhant-k08/scaffold-eth-rootstock/issues">Report Issue</a>
+  <a href="https://dev.rootstock.io">Rootstock Documentation</a>
+  | <a href="https://github.com/rsksmart/rsk-scaffold/issues">Report Issue</a>
 </h4>
 
 ⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
 
 -   ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
--   🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
+-   🪝 **[Custom hooks](https://dev.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
 -   🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
 -   🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
 -   🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Rootstock network.

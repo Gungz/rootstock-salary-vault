@@ -49,7 +49,6 @@ export const Balance = ({ address, className = "", usdMode }: BalanceProps) => {
     );
   }
   const formattedBalance = balance ? Number(formatEther(balance.value)) : 0;
-  console.log(formattedBalance);
 
   return (
     <button

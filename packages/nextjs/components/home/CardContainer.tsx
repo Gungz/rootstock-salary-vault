@@ -16,12 +16,12 @@ const cards = [
   {
     title: "Explorer",
     description: "Explore your transactions with the Block Explorer tab.",
-    link: "https://faucet.rootstock.io/",
+    link: "https://explorer.rootstock.io/",
   },
   {
     title: "Rootstock",
     description: "Learn more about Rootstock.",
-    link: "https://faucet.rootstock.io/",
+    link: "https://dev.rootstock.io/",
   },
 ];
 

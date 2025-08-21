@@ -56,7 +56,7 @@ export const ContractUI = ({ contractName, className }: ContractUIProps) => {
       <div className="w-full flex gap-7 mt-12">
         <div className="flex flex-col gap-7">
           <div className="bg-secondary p-5 rounded-lg w-80 border border-border">
-            <div className="">Wallet</div>
+            <div className="">Contract</div>
             <hr className="my-3 border-1 border-white-400 rounded-full" />
             <div className="flex gap-3 items-center mt-4">
               <div className="text-white-400 flex flex-col gap-2">
@@ -78,7 +78,7 @@ export const ContractUI = ({ contractName, className }: ContractUIProps) => {
             </div>
           </div>
           <div className="bg-secondary p-5 rounded-lg w-80 border border-border">
-            <div className="">Variables</div>
+            <div className="">Contract variables</div>
             <hr className="my-3 border-1 border-white-400 rounded-full" />
             <ContractVariables
               refreshDisplayVariables={refreshDisplayVariables}
@@ -89,7 +89,7 @@ export const ContractUI = ({ contractName, className }: ContractUIProps) => {
 
         <div className="w-full flex flex-col gap-7">
           <div className="bg-secondary p-4 rounded-lg w-full h-min border border-border">
-            <div className="">Read</div>
+            <div className="">Read methods</div>
             <hr className="my-3 border-1 border-white-400 rounded-full" />
             <div className="flex flex-col gap-2 my-4">
               <ContractReadMethods deployedContractData={deployedContractData} />
@@ -97,7 +97,7 @@ export const ContractUI = ({ contractName, className }: ContractUIProps) => {
           </div>
 
           <div className="bg-secondary p-4 rounded-lg w-full h-min border border-border">
-            <div className="">Write</div>
+            <div className="">Write methods</div>
             <hr className="my-3 border-1 border-white-400 rounded-full" />
             <div className="flex flex-col gap-2">
               <ContractWriteMethods

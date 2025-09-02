@@ -87,10 +87,6 @@ configure_env "NextJS" "packages/nextjs" "packages/nextjs/.env" "${nextjs_keys[@
 echo "Environment configuration completed!"
 echo
 
-# Install dependencies for both packages
-echo "Installing dependencies..."
-echo
-
 # Install root dependencies
 echo "Installing root dependencies..."
 yarn

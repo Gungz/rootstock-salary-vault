@@ -17,7 +17,7 @@ import "./PayrollVault.sol";
  * 
  * @author Rootstock Payroll Vault
  */
-contract VaultRegistry is Ownable {
+contract VaultRegistry is Ownable(msg.sender) {
     // State Variables
     mapping(address => address) public companyVaults;  // company -> vault address
     address[] public vaultList;                        // list of all vault addresses
@@ -46,7 +46,7 @@ contract VaultRegistry is Ownable {
      */
     constructor(address _implementation) {
         require(_implementation != address(0), "Invalid implementation address");
-        vaultImplementation = PayrollVault(_implementation);
+        vaultImplementation = PayrollVault(payable(_implementation));
     }
 
     /**
@@ -61,7 +61,7 @@ contract VaultRegistry is Ownable {
         address newVault = Clones.clone(address(vaultImplementation));
         
         // Initialize the vault
-        PayrollVault(newVault).initialize(
+        PayrollVault(payable(newVault)).initialize(
             msg.sender,
             _companyName,
             address(this)
@@ -139,7 +139,7 @@ contract VaultRegistry is Ownable {
     function updateImplementation(address _newImplementation) external onlyOwner {
         require(_newImplementation != address(0), "Invalid implementation address");
         address oldImplementation = address(vaultImplementation);
-        vaultImplementation = PayrollVault(_newImplementation);
+        vaultImplementation = PayrollVault(payable(_newImplementation));
         emit ImplementationUpdated(oldImplementation, _newImplementation);
     }
 

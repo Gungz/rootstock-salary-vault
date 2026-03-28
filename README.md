@@ -1,130 +1,211 @@
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/rsksmart/rsk-scaffold/badge)](https://scorecard.dev/viewer/?uri=github.com/rsksmart/rsk-scaffold)
-[![CodeQL](https://github.com/rsksmart/rsk-scaffold/workflows/CodeQL/badge.svg)](https://github.com/rsksmart/rsk-scaffold/actions?query=workflow%3ACodeQL)
+# Rootstock Payroll Vault - Full Stack DApp
 
-# 🏗 Rootstock-Scaffold
+A complete decentralized application for managing employee payroll on Rootstock. Companies can create salary vaults, deposit funds, add employees, and employees can withdraw their salaries on designated dates.
 
-<div align="center">
-<img src="packages/nextjs/public/rootstock.svg" width="200" />
-</div>
+## Architecture
 
-<h4 align="center">
-  <a href="https://dev.rootstock.io">Rootstock Documentation</a>
-  | <a href="https://github.com/rsksmart/rsk-scaffold/issues">Report Issue</a>
-</h4>
-
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
-
--   ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
--   🪝 **[Custom hooks](https://dev.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
--   🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
--   🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
--   🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Rootstock network.
-
-![Front Page](./packages/nextjs/public/front_page.png)
-
-## Requirements
-
-Before you begin, you need to install the following tools:
-
--   [Node (>= v18.18)](https://nodejs.org/en/download/)
--   Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
--   [Git](https://git-scm.com/downloads)
-
-## Quickstart
-
-To get started, follow the steps below:
-
-1. Clone this repo & install dependencies
-
-```sh
-git clone https://github.com/rsksmart/rsk-scaffold.git
+```mermaid
+graph TB
+    subgraph "Frontend (Next.js)"
+        UI[React UI]
+        WH[Wagmi + RainbowKit]
+    end
+    
+    subgraph "Rootstock Testnet"
+        VR[VaultRegistry]
+        PV[PayrollVault]
+    end
+    
+    subgraph "Backend"
+        AI[Alchemy Indexer]
+        MongoDB
+    end
+    
+    UI --> WH
+    WH --> VR
+    WH --> PV
+    VR -->|Emits Events| AI
+    PV -->|Emits Events| AI
+    AI -->|Index Events| MongoDB
 ```
 
-2. Open the project directory and install dependencies
+## Contracts (Deployed on Rootstock Testnet)
 
-```sh
-cd rsk-scaffold && yarn install
+| Contract | Address |
+|----------|---------|
+| VaultRegistry | `0xBE7369fe53032EB7B52aB3b384f7136E0f42153b` |
+| PayrollVault (Implementation) | `0x1F1C0Dbb78C10F51fca4cA112e3D72C59a2D8633` |
+
+## Features
+
+| # | Feature | Description |
+|---|---------|-------------|
+| 1 | Create Payroll Vault | Companies can create their own payroll vault |
+| 2 | Employee Management | Add/remove employees with salary settings |
+| 3 | Deposit Funds | Company deposits RBTC for salaries |
+| 4 | Freeze Vault | Emergency pause on withdrawals |
+| 5 | Employee Withdrawal | Employees withdraw on designated dates |
+| 6 | Event Indexing | Historical data stored in MongoDB |
+
+## Technology Stack
+
+| Layer | Technology |
+|-------|------------|
+| Frontend | Next.js 14, React 18, TypeScript |
+| Styling | TailwindCSS, DaisyUI |
+| Web3 | viem, wagmi, RainbowKit, Para Wallet |
+| Blockchain | Rootstock Testnet |
+| Events | Alchemy SDK |
+| Database | MongoDB |
+
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- Yarn or npm
+- MetaMask or Para Wallet
+- MongoDB Atlas account (optional, for event indexing)
+- Alchemy account (optional, for event indexing)
+
+### Installation
+
+```bash
+# Clone the repository
+cd rootstock-salary-vault
+
+# Install dependencies
+yarn install
 ```
 
-3. Setup `.env` file for Hardhat:
+### Environment Setup
 
-Make a copy of `.env.example` in `packages/hardhat` folder, name it `.env` and enter the respective values
+1. Copy the example environment file:
 
-```
-DEPLOYER_PRIVATE_KEY=
-ROOTSTOCK_RPC_URL=https://rpc.testnet.rootstock.io/YOUR_API_KEY_HERE
-```
-
-4. Deploying smart contracts on Rootstock:
-
-Once the `.env` file is setup, you can now run the below command in your terminal.
-
-```sh
-yarn deploy
+```bash
+cp packages/nextjs/.env.example packages/nextjs/.env.local
 ```
 
-This command deploys a test smart contract to the Rootstock testnet network. The contract is located in `packages/hardhat/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/hardhat/deploy` to deploy the contract to the network. You can also customize the deploy script.
+2. Update `.env.local` with your values:
 
-5. Setup `.env` file for Next.js app (optional):
+```bash
+# Get from https://cloud.walletconnect.com/
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your_project_id
 
-Make a copy of `.env.example` in `packages/nextjs` folder, name it `.env` and enter the respective values
+# Get from https://dashboard.alchemyapi.io/
+NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_key
+ALCHEMY_API_KEY=your_alchemy_key
 
-```
-NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=
-NEXT_PUBLIC_ROOTSTOCK_RPC_URL=https://rpc.testnet.rootstock.io/YOUR_API_KEY_HERE
-```
-
-6. On a second terminal, start your NextJS app:
-
-```
-yarn start
+# MongoDB (optional for event indexing)
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/payroll_vault
+MONGODB_DATABASE=payroll_vault
 ```
 
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
+### Running the App
 
-**What's next**:
+```bash
+cd packages/nextjs
+yarn dev
+```
 
--   Edit your smart contract `YourContract.sol` in `packages/hardhat/contracts`
--   Edit your frontend homepage at `packages/nextjs/app/page.tsx`. For guidance on [routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) and configuring [pages/layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) checkout the Next.js documentation.
--   Edit your deployment scripts in `packages/hardhat/deploy`
--   Edit your smart contract test in: `packages/hardhat/test`. To run test use `yarn hardhat:test`
+Open http://localhost:3000 in your browser.
 
-## Rootstock Network Configuration
+### Testing the App
 
-This scaffold is configured for Rootstock Testnet by default. Here are the network details:
+#### 1. Connect Wallet
 
-- **Network Name**: Rootstock Testnet
-- **Chain ID**: 31
-- **Currency**: tRBTC (Test Rootstock Bitcoin)
-- **RPC URL**: `https://rpc.testnet.rootstock.io`
-- **Explorer**: `https://explorer.testnet.rootstock.io`
+1. Open the app at http://localhost:3000
+2. Click "Connect Wallet"
+3. Select Para Wallet, MetaMask, or another wallet
+4. Approve the connection request
 
-### Getting Rootstock Testnet tRBTC
+#### 2. Test as Company Admin
 
-You can get testnet tRBTC from the [Rootstock Faucet](https://faucet.rootstock.io/).
+1. Navigate to `/admin`
+2. If you don't have a vault, create one:
+   - Enter company name
+   - Click "Create Vault"
+3. To manage employees:
+   - Add employee with address and salary
+   - Set withdrawal day (1-28)
+4. To deposit funds:
+   - Enter RBTC amount
+   - Click "Deposit"
 
-## Documentation
+#### 3. Test as Employee
 
-Visit our [Rootstock docs](https://dev.rootstock.io) to learn how to start building with Rootstock.
+1. Connect with an employee wallet address
+2. Navigate to `/employee`
+3. Check if withdrawal is available
+4. If on withdrawal day, click "Withdraw Salary"
 
-## Contributing
+## Project Structure
 
-We welcome contributions from the community. Please fork the repository and submit pull requests with your changes. Ensure your code adheres to the project's main objective.
+```
+rootstock-salary-vault/
+├── packages/
+│   ├── nextjs/                  # Frontend DApp
+│   │   ├── app/
+│   │   │   ├── page.tsx          # Landing page
+│   │   │   ├── dashboard/        # Main dashboard
+│   │   │   ├── admin/            # Admin portal
+│   │   │   ├── employee/         # Employee portal
+│   │   │   └── api/              # API routes
+│   │   ├── components/          # UI components
+│   │   ├── contracts/           # Contract ABIs
+│   │   ├── hooks/              # Web3 hooks
+│   │   ├── services/           # Services
+│   │   │   └── indexer/         # Alchemy indexer
+│   │   └── utils/              # Utilities
+│   │
+│   └── hardhat/                # Smart Contracts
+│       ├── contracts/          # Solidity contracts
+│       ├── deploy/             # Deployment scripts
+│       └── test/               # Test files
+```
 
-## Support
+## Key Files
 
-For any questions or support, please open an issue on the repository or reach out to the maintainers.
+| File | Description |
+|------|-------------|
+| `app/admin/page.tsx` | Admin dashboard for vault management |
+| `app/employee/page.tsx` | Employee portal for withdrawals |
+| `hooks/useVaultRegistry.ts` | Hook for vault creation |
+| `hooks/usePayrollVault.ts` | Hook for vault operations |
+| `services/indexer/AlchemyIndexer.ts` | Event indexing service |
 
-# Disclaimer
+## API Endpoints
 
-The software provided in this GitHub repository is offered "as is," without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/events` | GET/POST | Get or store vault events |
+| `/api/vault/[address]` | GET | Get events for a specific vault |
+| `/api/indexer/run` | GET | Trigger event indexing |
 
-- **Testing:** The software has not undergone testing of any kind, and its functionality, accuracy, reliability, and suitability for any purpose are not guaranteed.
-- **Use at Your Own Risk:** The user assumes all risks associated with the use of this software. The author(s) of this software shall not be held liable for any damages, including but not limited to direct, indirect, incidental, special, consequential, or punitive damages arising out of the use of or inability to use this software, even if advised of the possibility of such damages.
-- **No Liability:** The author(s) of this software are not liable for any loss or damage, including without limitation, any loss of profits, business interruption, loss of information or data, or other pecuniary loss arising out of the use of or inability to use this software.
-- **Sole Responsibility:** The user acknowledges that they are solely responsible for the outcome of the use of this software, including any decisions made or actions taken based on the software's output or functionality.
-- **No Endorsement:** Mention of any specific product, service, or organization does not constitute or imply endorsement by the author(s) of this software.
-- **Modification and Distribution:** This software may be modified and distributed under the terms of the license provided with the software. By modifying or distributing this software, you agree to be bound by the terms of the license.
-- **Assumption of Risk:** By using this software, the user acknowledges and agrees that they have read, understood, and accepted the terms of this disclaimer and assumes all risks associated with the use of this software.
+## Troubleshooting
 
-To know more about Scaffold-ETH features, check out their [website](https://scaffoldeth.io).
+### Connection Issues
+
+- **RPC Error**: Make sure `NEXT_PUBLIC_ROOTSTOCK_RPC_URL` is correct
+- **Wallet Not Connecting**: Try refreshing or using a different wallet
+
+### Contract Errors
+
+- **Vault Not Found**: Make sure your wallet is the company admin
+- **Transaction Failed**: Check if vault is frozen or insufficient balance
+
+### Event Indexing Issues
+
+- **No Events**: Make sure `ALCHEMY_API_KEY` is set in `.env.local`
+- **MongoDB Error**: Verify `MONGODB_URI` is correct
+
+## Resources
+
+- [Rootstock Documentation](https://dev.rootstock.io/)
+- [Alchemy Dashboard](https://dashboard.alchemyapi.io/)
+- [WalletConnect Cloud](https://cloud.walletconnect.com/)
+- [Para Wallet](https://para.social/)
+
+## License
+
+MIT

@@ -53,8 +53,9 @@ const config: HardhatUserConfig = {
     },
     rootstockTestnet: {
       url: rootstockRpcUrl,
-      accounts: [deployerPrivateKey],
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
       chainId: 31,
+      gasPrice: 60000000  // 0.06 gwei - RSK uses lower gas price
     },
   },
   // configuration for harhdat-verify plugin

@@ -2,58 +2,488 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-:root,
+/* ========================================
+   FUTURISTIC DESIGN SYSTEM
+   by Rootstock Payroll Vault
+   ======================================== */
+
+:root {
+  /* Base Colors - Deep Space Dark */
+  --bg-primary: #030712;
+  --bg-secondary: #0f1729;
+  --bg-tertiary: #1a2332;
+  
+  /* Glass Effect */
+  --glass-bg: rgba(15, 23, 41, 0.7);
+  --glass-border: rgba(148, 163, 184, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.05);
+  
+  /* Neon Accent Colors */
+  --neon-cyan: #00f5ff;
+  --neon-purple: #b026ff;
+  --neon-pink: #ff2a6d;
+  --neon-green: #00ff88;
+  --neon-orange: #ff9f1c;
+  
+  /* Text Colors */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  /* Border */
+  --border-subtle: rgba(148, 163, 184, 0.1);
+  --border-active: rgba(0, 245, 255, 0.3);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #00f5ff 0%, #b026ff 50%, #ff2a6d 100%);
+  --gradient-bg: radial-gradient(ellipse at top, #0f1729 0%, #030712 100%);
+}
+
 [data-theme] {
-  --bg-primary: #000;
-  --bg-secondary: #131313;
-  --gray-700: #3a3a3a;
-  --gray-600: #2a2a2a;
-  --gray-500: #515151;
-
-  --btn-secondary: #262626;
-
-  --brand-purple: #9e76ff;
-  --brand-green: #79c600;
-  --brand-pink: #ff71e1;
-  --brand-pink-dark: #ab4b96;
-  --brand-orange: #ff9100;
-  --brand-cyan: #08ffd0;
-  --brand-yellow: #713f12;
-  --brand-lime: #deff1a;
-  --brand-red: #ff2323;
-
-  --white-100: #fbfbfb;
-  --white-200: #cccccc;
-  --white-400: #b8b8b8;
-
-  --border: #484848;
-
-  --foreground: #1c1c1c;
-
   background: var(--bg-primary);
 }
 
-body {
-  min-height: 100vh;
-  color: var(--white-100);
+/* ========================================
+   BACKGROUND EFFECTS
+   ======================================== */
+
+/* Animated Gradient Background */
+.cosmic-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background: var(--gradient-bg);
+  overflow: hidden;
 }
 
-h1,
-h2,
-h3,
-h4 {
-  margin-bottom: 0.5rem;
-  line-height: 1;
+.cosmic-bg::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(176, 38, 255, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(0, 245, 255, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 40% 40%, rgba(255, 42, 109, 0.08) 0%, transparent 30%);
+  animation: cosmic-drift 20s ease-in-out infinite;
+}
+
+.cosmic-bg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+@keyframes cosmic-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(2%, 2%) rotate(2deg); }
+  66% { transform: translate(-1%, 1%) rotate(-1deg); }
+}
+
+/* ========================================
+   GLASSMORPHISM
+   ======================================== */
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 var(--glass-highlight);
+}
+
+.glass-subtle {
+  background: rgba(15, 23, 41, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 41, 0.8) 0%,
+    rgba(26, 35, 50, 0.6) 100%
+  );
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 
+    0 4px 24px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-card:hover {
+  border-color: var(--border-active);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(0, 245, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* ========================================
+   NEON GLOW EFFECTS
+   ======================================== */
+
+.neon-text {
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 20px currentColor;
+}
+
+.neon-cyan {
+  color: var(--neon-cyan);
+  text-shadow: 
+    0 0 5px var(--neon-cyan),
+    0 0 10px var(--neon-cyan),
+    0 0 20px var(--neon-cyan);
+}
+
+.neon-purple {
+  color: var(--neon-purple);
+  text-shadow: 
+    0 0 5px var(--neon-purple),
+    0 0 10px var(--neon-purple),
+    0 0 20px var(--neon-purple);
+}
+
+.neon-pink {
+  color: var(--neon-pink);
+  text-shadow: 
+    0 0 5px var(--neon-pink),
+    0 0 10px var(--neon-pink),
+    0 0 20px var(--neon-pink);
+}
+
+.neon-green {
+  color: var(--neon-green);
+  text-shadow: 
+    0 0 5px var(--neon-green),
+    0 0 10px var(--neon-green),
+    0 0 20px var(--neon-green);
+}
+
+.neon-orange {
+  color: var(--neon-orange);
+  text-shadow: 
+    0 0 5px var(--neon-orange),
+    0 0 10px var(--neon-orange),
+    0 0 20px var(--neon-orange);
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.btn-neon {
+  position: relative;
+  background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-purple) 100%);
+  border: none;
+  color: #030712;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-neon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn-neon:hover::before {
+  left: 100%;
+}
+
+.btn-neon:hover {
+  box-shadow: 
+    0 0 20px var(--neon-cyan),
+    0 0 40px var(--neon-purple);
+  transform: scale(1.02);
+}
+
+.btn-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  padding: 12px 24px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.btn-glass:hover {
+  background: rgba(15, 23, 41, 0.9);
+  border-color: var(--neon-cyan);
+  box-shadow: 
+    0 0 15px rgba(0, 245, 255, 0.2),
+    inset 0 0 15px rgba(0, 245, 255, 0.05);
+}
+
+.btn-glass-primary {
+  background: rgba(0, 245, 255, 0.15);
+  border: 1px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+
+.btn-glass-primary:hover {
+  background: rgba(0, 245, 255, 0.25);
+  box-shadow: 
+    0 0 20px rgba(0, 245, 255, 0.3);
+}
+
+.btn-glass-danger {
+  background: rgba(255, 42, 109, 0.15);
+  border: 1px solid var(--neon-pink);
+  color: var(--neon-pink);
+}
+
+.btn-glass-danger:hover {
+  background: rgba(255, 42, 109, 0.25);
+  box-shadow: 
+    0 0 20px rgba(255, 42, 109, 0.3);
+}
+
+/* ========================================
+   INPUTS
+   ======================================== */
+
+.input-glass {
+  background: rgba(15, 23, 41, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.input-glass:focus {
+  outline: none;
+  border-color: var(--neon-cyan);
+  box-shadow: 
+    0 0 15px rgba(0, 245, 255, 0.2),
+    inset 0 0 10px rgba(0, 245, 255, 0.05);
+}
+
+.input-glass::placeholder {
+  color: var(--text-muted);
+}
+
+/* ========================================
+   CARDS
+   ======================================== */
+
+.stat-card {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 41, 0.9) 0%,
+    rgba(26, 35, 50, 0.7) 100%
+  );
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: var(--border-active);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(0, 245, 255, 0.1);
+  transform: translateY(-4px);
+}
+
+.stat-card-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========================================
+   TABLES
+   ======================================== */
+
+.table-glass {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.table-glass th {
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.table-glass td {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  padding: 16px;
+}
+
+.table-glass tr td:first-child {
+  border-radius: 12px 0 0 12px;
+}
+
+.table-glass tr td:last-child {
+  border-radius: 0 12px 12px 0;
+}
+
+.table-glass tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table-glass tbody tr:hover td {
+  background: rgba(15, 23, 41, 0.9);
+  border-color: var(--border-active);
+}
+
+/* ========================================
+   BADGES
+   ======================================== */
+
+.badge-neon {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-active {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--neon-green);
+  border: 1px solid var(--neon-green);
+}
+
+.badge-inactive {
+  background: rgba(100, 116, 139, 0.15);
+  color: var(--text-muted);
+  border: 1px solid var(--text-muted);
+}
+
+.badge-frozen {
+  background: rgba(255, 42, 109, 0.15);
+  color: var(--neon-pink);
+  border: 1px solid var(--neon-pink);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 245, 255, 0.4);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+body {
+  min-height: 100vh;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 p {
-  margin: 1rem 0;
+  color: var(--text-secondary);
 }
 
-.btn {
-  @apply shadow-md;
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-.btn.btn-ghost {
-  @apply shadow-none;
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neon-purple);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-cyan);
 }

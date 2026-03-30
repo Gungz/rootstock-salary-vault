@@ -54,7 +54,7 @@ describe("PayrollVault", function () {
   }
 
   before(async () => {
-    [owner, company, employee, employee2] = await ethers.getSigners();
+    [company, employee, employee2] = await ethers.getSigners();
 
     // Deploy PayrollVault implementation
     const payrollVaultFactory = await ethers.getContractFactory("PayrollVault");
@@ -217,7 +217,7 @@ describe("PayrollVault", function () {
           FIRST_SALARY_AMOUNT
         );
       } catch (e) {
-        console.log(e);
+        // console.log(e);
         // Employee already exists, ignore
       }
       // Always ensure we have deposit funds

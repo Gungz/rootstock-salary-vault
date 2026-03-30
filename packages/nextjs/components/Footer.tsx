@@ -13,10 +13,10 @@ export const Footer = () => {
       <div className="order-2 mt-3 md:order-1">
         <div className="flex gap-2 items-center" data-testid="built-by-text">
           <span>Built by</span>
-          <span className="text-lg font-bold">RootstockLabs</span>
+          <span className="text-lg font-bold">Gungz with Rootstock</span>
         </div>
         <div className="text-xs text-gray-400" data-testid="copyright-text">
-          Copyright &copy; {year} RootstockLabs. All rights reserved.
+          Copyright &copy; {year} Gungz with Rootstock. All rights reserved.
         </div>
       </div>
       <div className="flex gap-4 flex-wrap mt-3 order-1 md:order-2">

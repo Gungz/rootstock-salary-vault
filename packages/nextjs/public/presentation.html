@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rootstock Payroll Vault</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/white.css">
+  <style>
+    .reveal { font-size: 28px; }
+    .reveal h1 { font-size: 2.2em; color: #1a1a2e; }
+    .reveal h2 { font-size: 1.6em; color: #16213e; }
+    .reveal h3 { font-size: 1.2em; color: #0f3460; }
+    .reveal .slides section { text-align: left; }
+    .reveal .slides section.center { text-align: center; }
+    .highlight { color: #e94560; font-weight: bold; }
+    .code-box { 
+      background: #1a1a2e; 
+      color: #00ff88; 
+      padding: 20px; 
+      border-radius: 8px; 
+      font-size: 0.6em !important;
+      font-family: 'Courier New', monospace;
+    }
+    .feature-list { font-size: 0.85em; }
+    .feature-list li { margin: 12px 0; }
+    .contract-address { 
+      background: #f0f0f0; 
+      padding: 8px 16px; 
+      border-radius: 4px; 
+      font-family: monospace;
+    }
+    .two-col { display: flex; gap: 40px; }
+    .two-col > div { flex: 1; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1: Title -->
+      <section class="center">
+        <h1>Rootstock Payroll Vault</h1>
+        <h3 style="color: #e94560;">Smart Contract-Based Employee Salary Management</h3>
+        <p style="margin-top: 40px;">
+          <small>Built on Rootstock Testnet</small>
+        </p>
+      </section>
+
+      <!-- Slide 2: Problem & Solution -->
+      <section>
+        <h2>Problem & Solution</h2>
+        <div class="two-col">
+          <div>
+            <h3 style="color: #e94560;">Problem</h3>
+            <ul class="feature-list">
+              <li>Traditional finance salary processing can take time and could consume considerable fees in some place</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color: #00b894;">Solution</h3>
+            <ul class="feature-list">
+              <li>Smart contract-based payroll</li>
+              <li>Vault Funding by Employer</li>
+              <li>Configurable withdrawal day</li>
+              <li>Real-time vault tracking</li>
+              <li>Employee self-service withdrawals</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: Architecture -->
+      <section>
+        <h2>Smart Contract Architecture</h2>
+        <pre class="code-box">
+┌─────────────────────────────────────────────────────┐
+│              VaultRegistry Contract                 │
+│  • Maps company → vault address                     │
+│  • One vault per company                            │
+└─────────────────────────────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────┐
+│             PayrollVault Contract                  │
+│  • deposit()        : Add funds to vault           │
+│  • addEmployee()   : Register employee + salary    │
+│  • removeEmployee(): Remove employee               │
+│  • withdraw()       : Employee withdrawal          │
+│  • freezeVault()   : Lock all withdrawals          │
+│  • setWithdrawalDay() : Configure pay day (1-28)   │
+└─────────────────────────────────────────────────────┘
+        </pre>
+        <p style="font-size: 0.7em; margin-top: 20px;">
+          <strong>Key Features:</strong> RBTC native currency • Monthly salary (with/without first-month salary) • Configurable payment day
+        </p>
+      </section>
+
+      <!-- Slide 4: Web App Features -->
+      <section>
+        <h2>Web Application Features</h2>
+        <div class="two-col">
+          <div>
+            <h3 style="color: #e94560;">Admin Dashboard</h3>
+            <ul class="feature-list">
+              <li>Create payroll vault</li>
+              <li>Add/remove employees with salary terms</li>
+              <li>Deposit funds to vault</li>
+              <li>View total monthly obligations</li>
+              <li>Coverage indicator (months of runway)</li>
+              <li>Freeze/unfreeze vault</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color: #00b894;">Employee Portal</h3>
+            <ul class="feature-list">
+              <li>Enter company vault address</li>
+              <li>View withdrawable amount</li>
+              <li>Withdraw on designated day</li>
+              <li>Track payment history</li>
+            </ul>
+            <h3 style="margin-top: 20px;">Tech Stack</h3>
+            <ul class="feature-list">
+              <li>Next.js 14 + React</li>
+              <li>Wagmi + RainbowKit</li>
+              <li>MongoDB (off-chain indexing) - in progress</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Contract Addresses -->
+      <section>
+        <h2>Contract Addresses</h2>
+        <p><strong>Rootstock Testnet</strong></p>
+        <div style="font-size: 0.8em; margin: 30px 0;">
+          <p><strong>VaultRegistry:</strong> <span class="contract-address">0xBE7369fe53032EB7B52aB3b384f7136E0f42153b</span></p>
+          <p><strong>PayrollVault Implementation:</strong> <span class="contract-address">0x1F1C0Dbb78C10F51fca4cA112e3D72C59a2D8633</span></p>
+        </div>
+        <h2>Key Differentiators</h2>
+        <ul class="feature-list">
+          <li>On-chain payroll logic</li>
+          <li>Configurable payment schedules</li>
+          <li>Real-time fund coverage tracking</li>
+          <li>Employee self-service withdrawals</li>
+        </ul>
+      </section>
+
+      <!-- Slide 6: How to Use -->
+      <section>
+        <h2>How to Use</h2>
+        <ol class="feature-list">
+          <li><strong>Connect Wallet</strong></li>
+          <li><strong>Admin Flow:</strong>
+            <ul>
+              <li>Navigate to <code>/admin</code></li>
+              <li>Create new vault</li>
+              <li>Add employees with salary & start date</li>
+              <li>Deposit RBTC to fund the vault</li>
+            </ul>
+          </li>
+          <li><strong>Employee Flow:</strong>
+            <ul>
+              <li>Navigate to <code>/employee</code></li>
+              <li>Enter company vault address</li>
+              <li>View withdrawable amount</li>
+              <li>Withdraw on designated day</li>
+            </ul>
+          </li>
+        </ol>
+      </section>
+
+      <!-- Slide 7: Thank You -->
+      <section class="center">
+        <h1>Thank You!</h1>
+        <p>Built with ❤️ on Rootstock</p>
+        <p style="margin-top: 40px; font-size: 0.7em;">
+          <a href="https://dev.rootstock.io" target="_blank">dev.rootstock.io</a> • 
+          <a href="https://www.rootstock.io" target="_blank">rootstock.io</a>
+        </p>
+      </section>
+
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      transition: 'slide',
+      backgroundTransition: 'fade',
+    });
+  </script>
+</body>
+</html>

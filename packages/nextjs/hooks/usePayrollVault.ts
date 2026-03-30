@@ -28,7 +28,7 @@ export function usePayrollVault(vaultAddress?: string) {
     query: { enabled: canRead },
   });
 
-  const { data: withdrawalDay, isLoading: isLoadingWithdrawalDay } = useReadContract({
+  const { data: withdrawalDay, isLoading: isLoadingWithdrawalDay, refetch: refetchWithdrawalDay } = useReadContract({
     address: vaultAddress,
     abi: PayrollVaultAbi,
     functionName: "withdrawalDay",
@@ -49,6 +49,13 @@ export function usePayrollVault(vaultAddress?: string) {
     query: { enabled: canRead },
   });
 
+  const { data: totalPendingSalaries, isLoading: isLoadingTotalSalaries, refetch: refetchTotalSalaries } = useReadContract({
+    address: vaultAddress,
+    abi: PayrollVaultAbi,
+    functionName: "getTotalPendingSalaries",
+    query: { enabled: canRead },
+  });
+
   const isAdmin = useMemo(() => {
     return company === userAddress;
   }, [company, userAddress]);
@@ -60,6 +67,7 @@ export function usePayrollVault(vaultAddress?: string) {
     withdrawalDay: Number(withdrawalDay ?? 25n),
     vaultBalance: vaultBalance ?? 0n,
     employeeCount: Number(employeeCount ?? 0n),
+    totalPendingSalaries: totalPendingSalaries ?? 0n,
     isAdmin,
     isLoading:
       isLoadingCompany ||
@@ -67,10 +75,13 @@ export function usePayrollVault(vaultAddress?: string) {
       isLoadingFrozen ||
       isLoadingWithdrawalDay ||
       isLoadingBalance ||
-      isLoadingCount,
+      isLoadingCount ||
+      isLoadingTotalSalaries,
     refetch: {
       balance: refetchBalance,
       count: refetchCount,
+      totalSalaries: refetchTotalSalaries,
+      withdrawalDay: refetchWithdrawalDay
     },
   };
 }

@@ -282,6 +282,23 @@
   transition: all 0.3s ease;
 }
 
+/* Fix for number input spinner visibility */
+.input-glass[type="number"] {
+  color: var(--text-primary);
+  -webkit-text-fill-color: var(--text-primary);
+}
+
+/* Hide number input spinners */
+.input-glass[type="number"]::-webkit-outer-spin-button,
+.input-glass[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-glass[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .input-glass:focus {
   outline: none;
   border-color: var(--neon-cyan);

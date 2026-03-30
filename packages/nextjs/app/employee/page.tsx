@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useVaultRegistry } from "~~/hooks/useVaultRegistry";
 import { usePayrollVault, useEmployee, useCanWithdraw, useWithdraw } from "~~/hooks/usePayrollVault";
 import { formatRBTC } from "~~/contracts/abis";
-import { GlassCard, NeonButton, StatCard, PageHeader, Badge } from "~~/components/ui/CosmicBackground";
+import { GlassCard, GlassInput, NeonButton, StatCard, PageHeader, Badge } from "~~/components/ui/CosmicBackground";
 
 function EmployeeProfile({ vaultAddress, employeeAddress }: { vaultAddress: string; employeeAddress: string }) {
   const { employee, canWithdraw, isLoading, refetch } = useEmployee(vaultAddress, employeeAddress);
@@ -146,7 +146,12 @@ function NoVaultEmployee() {
         </svg>
       </div>
       <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">No Vault Found</h3>
-      <p className="text-[var(--text-muted)]">Your company doesn't have a payroll vault yet.</p>
+      <p className="text-[var(--text-muted)] mb-6">
+        Enter your company's payroll vault address above to check your salary.
+      </p>
+      <p className="text-[var(--text-muted)] text-sm">
+        Contact your employer to get the vault address.
+      </p>
     </GlassCard>
   );
 }
@@ -168,6 +173,10 @@ function NotConnectedEmployee() {
 export default function EmployeePage() {
   const { address: userAddress, isConnected } = useAccount();
   const { userVaultAddress, hasVault } = useVaultRegistry();
+  const [inputVaultAddress, setInputVaultAddress] = useState("");
+  
+  // Priority: 1) Input address if provided, 2) User's vault if they are admin
+  const vaultAddress = inputVaultAddress || (hasVault ? userVaultAddress : undefined);
 
   if (!isConnected) {
     return (
@@ -178,22 +187,38 @@ export default function EmployeePage() {
     );
   }
 
-  if (!hasVault || !userVaultAddress) {
-    return (
-      <div className="max-w-2xl mx-auto">
-        <PageHeader title="Employee Portal" description="View and withdraw your salary" />
-        <NoVaultEmployee />
-      </div>
-    );
-  }
-
+  // Always show input to enter vault address (allows admin to also be employee)
   return (
     <div className="max-w-4xl mx-auto">
       <PageHeader 
         title="Employee Portal" 
         description={`Connected as ${userAddress?.slice(0, 6)}...${userAddress?.slice(-4)}`} 
       />
-      <EmployeeProfile vaultAddress={userVaultAddress} employeeAddress={userAddress || ""} />
+      
+      {/* Vault Address Input - always visible */}
+      <GlassCard className="p-4 mb-6">
+        <label className="block text-sm text-[var(--text-muted)] mb-2">
+          Enter Vault Address
+        </label>
+        <GlassInput
+          type="text"
+          placeholder="Enter vault address (0x...)"
+          value={inputVaultAddress}
+          onChange={(e) => setInputVaultAddress(e.target.value)}
+        />
+        {hasVault && !inputVaultAddress && (
+          <p className="text-[var(--text-muted)] text-sm mt-2">
+            You have a vault. Leave empty to use your vault or enter a different vault address.
+          </p>
+        )}
+      </GlassCard>
+
+      {/* Show employee profile if we have a vault address */}
+      {vaultAddress ? (
+        <EmployeeProfile vaultAddress={vaultAddress} employeeAddress={userAddress || ""} />
+      ) : (
+        <NoVaultEmployee />
+      )}
     </div>
   );
 }

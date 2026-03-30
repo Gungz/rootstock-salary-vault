@@ -106,9 +106,19 @@ export function NeonButton({
  * Glass Input Component
  */
 export function GlassInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
+  // For number inputs, ensure text color is visible
+  const isNumber = props.type === "number";
+  const style = isNumber ? { 
+    color: '#f8fafc',
+    background: 'rgba(15, 23, 41, 0.6)',
+    WebkitTextFillColor: '#f8fafc',
+    opacity: 1
+  } : undefined;
+  
   return (
     <input
       className="input-glass w-full"
+      style={style}
       {...props}
     />
   );

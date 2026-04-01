@@ -35,7 +35,8 @@
     "usehooks-ts": "^3.1.0",
     "viem": "2.33.0",
     "wagmi": "2.12.23",
-    "zustand": "^5.0.0"
+    "zustand": "^5.0.0",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
@@ -53,6 +54,9 @@
     "tailwindcss": "^3.4.11",
     "type-fest": "^4.26.1",
     "typescript": "<5.6.0",
-    "vercel": "^37.4.2"
+    "vercel": "^37.4.2",
+    "@types/react-dom": "^19.1.7",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10"
   }
 }
